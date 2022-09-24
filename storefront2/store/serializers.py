@@ -1,7 +1,19 @@
+from decimal import Decimal
+from store.models import Product, Collection
 from rest_framework import serializers
 
-class ProductSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    title = serializers.CharField(max_length=255)
-    unit_price = serializers.DecimalField(max_digits=6, decimal_places=2)
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ['id', 'title']
 
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'unit_price', 'price_with_tax', 'collection']
+
+    price_with_tax = serializers.SerializerMethodField(method_name='get_price_with_tax')
+
+
+    def get_price_with_tax(self, product: Product):
+        return product.unit_price * Decimal(1.12)
