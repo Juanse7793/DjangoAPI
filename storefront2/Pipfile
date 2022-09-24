@@ -8,6 +8,7 @@ django = "*"
 django-debug-toolbar = "*"
 django-extensions = "*"
 psycopg2 = "*"
+djangorestframework = "*"
 
 [dev-packages]
 
